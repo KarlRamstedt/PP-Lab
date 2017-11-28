@@ -10,9 +10,25 @@ public class Woman implements Runnable {
 		while (true) {
 			// fill functionality here
 			
+			GlobalState.mutex.P();
+			if(GlobalState.numberOfMenInCS > 0){
+				GlobalState.numberOfDelayedWomen++;
+				
+				GlobalState.mutex.V();
+				GlobalState.womSem.P();
+			}
+			GlobalState.numberOfWomenInCS++;
+			GlobalState.signal();
+			//cs
+			doThings();
+			System.out.println(getState());
 			
-			
-			
+			GlobalState.mutex.P();
+			GlobalState.numberOfWomenInCS--;
+			GlobalState.signal();	
+		
+			doThings();
+
 		}
 	}
 

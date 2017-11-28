@@ -9,6 +9,24 @@ public class Man implements Runnable {
 	public void run() {
 		while (true) {
 			// fill functionality here
+			
+			GlobalState.mutex.P();
+			if(GlobalState.numberOfWomenInCS > 0){
+				GlobalState.numberOfDelayedMen++;
+				
+				GlobalState.mutex.V();
+				GlobalState.menSem.P();
+			}
+			GlobalState.numberOfMenInCS++;
+			GlobalState.signal();
+			//cs
+			doThings();
+			System.out.println(getState());
+			GlobalState.mutex.P();
+			GlobalState.numberOfMenInCS--;
+			GlobalState.signal();	
+		
+			doThings();
 		}
 	}
 
