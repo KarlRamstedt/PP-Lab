@@ -130,14 +130,14 @@ i++</label>
 	<template>
 		<name x="5" y="5">Man</name>
 		<parameter>const int id</parameter>
-		<location id="id6" x="-76" y="-671">
+		<location id="id6" x="-365" y="-620">
 		</location>
-		<location id="id7" x="-221" y="-671">
-			<name x="-255" y="-705">WomCS</name>
+		<location id="id7" x="-229" y="-705">
 		</location>
-		<location id="id8" x="-365" y="-467">
+		<location id="id8" x="-229" y="-620">
+			<name x="-246" y="-612">ManCS</name>
 		</location>
-		<location id="id9" x="-76" y="-790">
+		<location id="id9" x="-365" y="-467">
 		</location>
 		<location id="id10" x="-510" y="-374">
 			<name x="-493" y="-382">MutCS2</name>
@@ -150,7 +150,7 @@ i++</label>
 		<location id="id13" x="-697" y="-790">
 			<name x="-721" y="-822">Start</name>
 		</location>
-		<location id="id14" x="-221" y="-790">
+		<location id="id14" x="-229" y="-790">
 		</location>
 		<location id="id15" x="-510" y="-221">
 		</location>
@@ -181,14 +181,15 @@ i++</label>
 		<init ref="id13"/>
 		<transition>
 			<source ref="id6"/>
-			<target ref="id7"/>
-			<label kind="synchronisation" x="-204" y="-671">P[Men_guard]!</label>
-			<label kind="assignment" x="-204" y="-654">ID = id</label>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-365" y="-561">Go ?</label>
+			<label kind="assignment" x="-365" y="-544">MCS++</label>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id6"/>
-			<label kind="synchronisation" x="-76" y="-739">Go ?</label>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-229" y="-680">P[Men_guard]!</label>
+			<label kind="assignment" x="-229" y="-663">ID = id</label>
 		</transition>
 		<transition>
 			<source ref="id11"/>
@@ -211,21 +212,20 @@ i++</label>
 		</transition>
 		<transition>
 			<source ref="id12"/>
-			<target ref="id8"/>
-			<label kind="guard" x="-356" y="-740">WCS &lt;= 0</label>
-			<label kind="synchronisation" x="-356" y="-723">Go?</label>
+			<target ref="id6"/>
+			<label kind="guard" x="-365" y="-731">WCS &lt;= 0</label>
+			<label kind="synchronisation" x="-365" y="-714">Go?</label>
 		</transition>
 		<transition>
-			<source ref="id7"/>
-			<target ref="id8"/>
-			<label kind="guard" x="-280" y="-595">ready[id] == 1</label>
-			<label kind="synchronisation" x="-280" y="-561">Go ?</label>
-			<label kind="assignment" x="-280" y="-578">MCS++</label>
+			<source ref="id8"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-340" y="-620">ready[id] == 1</label>
+			<label kind="synchronisation" x="-340" y="-603">Go ?</label>
 		</transition>
 		<transition>
 			<source ref="id14"/>
-			<target ref="id9"/>
-			<label kind="synchronisation" x="-195" y="-824">V[Mutex_guard]!</label>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-229" y="-765">V[Mutex_guard]!</label>
 		</transition>
 		<transition>
 			<source ref="id12"/>
@@ -243,7 +243,7 @@ i++</label>
 		<transition>
 			<source ref="id17"/>
 			<target ref="id20"/>
-			<label kind="synchronisation" x="-51" y="-442">V[Mutex_guard]!</label>
+			<label kind="synchronisation" x="-51" y="-399">V[Mutex_guard]!</label>
 			<nail x="-51" y="-348"/>
 		</transition>
 		<transition>
@@ -257,7 +257,7 @@ i++</label>
 			<label kind="synchronisation" x="-323" y="-340">V[Men_guard]!</label>
 		</transition>
 		<transition>
-			<source ref="id8"/>
+			<source ref="id9"/>
 			<target ref="id16"/>
 			<label kind="guard" x="-357" y="-433">WCS == 0 &amp;&amp; MD &gt; 0</label>
 			<label kind="synchronisation" x="-357" y="-416">Go?</label>
@@ -277,7 +277,7 @@ i++</label>
 			<label kind="synchronisation" x="-186" y="-484">Go?</label>
 		</transition>
 		<transition>
-			<source ref="id8"/>
+			<source ref="id9"/>
 			<target ref="id19"/>
 			<label kind="guard" x="-347" y="-501">WCS != 0 || MD &lt;= 0</label>
 			<label kind="synchronisation" x="-347" y="-484">Go?</label>
@@ -338,14 +338,14 @@ i++</label>
 	<template>
 		<name x="5" y="5">Woman</name>
 		<parameter>const int id</parameter>
-		<location id="id27" x="-76" y="-671">
+		<location id="id27" x="-365" y="-620">
 		</location>
-		<location id="id28" x="-221" y="-671">
-			<name x="-255" y="-705">WomCS</name>
+		<location id="id28" x="-229" y="-705">
 		</location>
-		<location id="id29" x="-365" y="-467">
+		<location id="id29" x="-229" y="-620">
+			<name x="-246" y="-612">WomCS</name>
 		</location>
-		<location id="id30" x="-76" y="-790">
+		<location id="id30" x="-365" y="-467">
 		</location>
 		<location id="id31" x="-510" y="-374">
 			<name x="-493" y="-382">MutCS2</name>
@@ -358,7 +358,7 @@ i++</label>
 		<location id="id34" x="-697" y="-790">
 			<name x="-721" y="-822">Start</name>
 		</location>
-		<location id="id35" x="-221" y="-790">
+		<location id="id35" x="-229" y="-790">
 		</location>
 		<location id="id36" x="-510" y="-221">
 		</location>
@@ -389,14 +389,15 @@ i++</label>
 		<init ref="id34"/>
 		<transition>
 			<source ref="id27"/>
-			<target ref="id28"/>
-			<label kind="synchronisation" x="-204" y="-671">P[Women_guard]!</label>
-			<label kind="assignment" x="-204" y="-654">ID = id</label>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-365" y="-561">Go ?</label>
+			<label kind="assignment" x="-365" y="-544">WCS++</label>
 		</transition>
 		<transition>
-			<source ref="id30"/>
-			<target ref="id27"/>
-			<label kind="synchronisation" x="-76" y="-739">Go ?</label>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-229" y="-680">P[Women_guard]!</label>
+			<label kind="assignment" x="-229" y="-663">ID = id</label>
 		</transition>
 		<transition>
 			<source ref="id32"/>
@@ -419,21 +420,20 @@ i++</label>
 		</transition>
 		<transition>
 			<source ref="id33"/>
-			<target ref="id29"/>
-			<label kind="guard" x="-356" y="-740">MCS &lt;= 0</label>
-			<label kind="synchronisation" x="-356" y="-723">Go?</label>
+			<target ref="id27"/>
+			<label kind="guard" x="-365" y="-731">MCS &lt;= 0</label>
+			<label kind="synchronisation" x="-365" y="-714">Go?</label>
 		</transition>
 		<transition>
-			<source ref="id28"/>
-			<target ref="id29"/>
-			<label kind="guard" x="-280" y="-595">ready[id] == 1</label>
-			<label kind="synchronisation" x="-280" y="-561">Go ?</label>
-			<label kind="assignment" x="-280" y="-578">WCS++</label>
+			<source ref="id29"/>
+			<target ref="id27"/>
+			<label kind="guard" x="-340" y="-620">ready[id] == 1</label>
+			<label kind="synchronisation" x="-340" y="-603">Go ?</label>
 		</transition>
 		<transition>
 			<source ref="id35"/>
-			<target ref="id30"/>
-			<label kind="synchronisation" x="-195" y="-824">V[Mutex_guard]!</label>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="-229" y="-765">V[Mutex_guard]!</label>
 		</transition>
 		<transition>
 			<source ref="id33"/>
@@ -451,7 +451,7 @@ i++</label>
 		<transition>
 			<source ref="id38"/>
 			<target ref="id41"/>
-			<label kind="synchronisation" x="-51" y="-442">V[Mutex_guard]!</label>
+			<label kind="synchronisation" x="-51" y="-399">V[Mutex_guard]!</label>
 			<nail x="-51" y="-348"/>
 		</transition>
 		<transition>
@@ -465,7 +465,7 @@ i++</label>
 			<label kind="synchronisation" x="-323" y="-340">V[Men_guard]!</label>
 		</transition>
 		<transition>
-			<source ref="id29"/>
+			<source ref="id30"/>
 			<target ref="id37"/>
 			<label kind="guard" x="-357" y="-433">WCS == 0 &amp;&amp; MD &gt; 0</label>
 			<label kind="synchronisation" x="-357" y="-416">Go?</label>
@@ -485,7 +485,7 @@ i++</label>
 			<label kind="synchronisation" x="-186" y="-484">Go?</label>
 		</transition>
 		<transition>
-			<source ref="id29"/>
+			<source ref="id30"/>
 			<target ref="id40"/>
 			<label kind="guard" x="-347" y="-501">WCS != 0 || MD &lt;= 0</label>
 			<label kind="synchronisation" x="-347" y="-484">Go?</label>
@@ -576,7 +576,7 @@ system SEM_0, SEM_1, SEM_2, M1, M2, W1, W2, G;	//Add semaphores and processes as
 			</comment>
 		</query>
 		<query>
-			<formula>!E&lt;&gt; (M1.MutCS &amp;&amp; M2.MutCS)
+			<formula>E&lt;&gt; (M1.MutCS &amp;&amp; M2.MutCS)
 			</formula>
 			<comment>
 			</comment>
