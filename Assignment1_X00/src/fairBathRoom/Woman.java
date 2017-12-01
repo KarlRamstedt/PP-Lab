@@ -9,46 +9,42 @@ public class Woman implements Runnable {
 	
 	@Override
 	public void run() {
-		
 		GlobalState.mutex.P();
 		GlobalState.womQ.add(this);
 		GlobalState.mutex.V();
 		
 		while (true) {
-			// fill functionality here
-			
+		
 			GlobalState.mutex.P();
-			
 			if(GlobalState.numberOfMenInCS > 0){
 				GlobalState.numberOfDelayedWomen++;
 				if(!GlobalState.womQ.contains(this))
 					GlobalState.womQ.add(this);
+
 				GlobalState.mutex.V();
 				GlobalState.womSem.P();
 			}
-			
-			if(GlobalState.numberOfWomenInCS < 4){
-				if (TooManyWomen){
-					TooManyWomen = false;
-					GlobalState.numberOfWaitingWomen--;
-				}
+			while(GlobalState.womQ.peek() != this)
+				doThings();
+			if(GlobalState.numberOfWomenInCS < 4 /*&& GlobalState.womQ.peek() == this*/ && !GlobalState.mansTurn){
+				GlobalState.womQ.poll();
 				GlobalState.numberOfWomenInCS++;
+				GlobalState.increaseTurn();
 				GlobalState.signal();
-			
+		
 				doThings();
 				System.out.println(getState());
+		
 				GlobalState.mutex.P();
 				GlobalState.numberOfWomenInCS--;
+	
 				GlobalState.signal();
 				
 				doThings();
 			} else {
-				if (TooManyWomen == false){
-					GlobalState.numberOfWaitingWomen++;
-					TooManyWomen = true;
-				}
 				GlobalState.mutex.V();
 			}
+			System.out.println("W" + AndrewsProcess.currentAndrewsProcessId() + " is out.");
 		}
 	}
 
@@ -57,9 +53,7 @@ public class Woman implements Runnable {
 				+ "  in CS, state: nm:" + GlobalState.numberOfMenInCS +
 				" nw:" + GlobalState.numberOfWomenInCS +
 				" dm:" + GlobalState.numberOfDelayedMen +
-				" wm:" + GlobalState.numberOfWaitingMen +
-				" dw:" + GlobalState.numberOfDelayedWomen +
-				" ww:" + GlobalState.numberOfWaitingWomen;
+				" dw:" + GlobalState.numberOfDelayedWomen;
 	}
 
 	// represents that processes are staying in a state for a while

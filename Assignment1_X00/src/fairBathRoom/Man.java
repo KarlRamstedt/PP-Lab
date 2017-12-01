@@ -9,17 +9,12 @@ public class Man implements Runnable {
 	
 	@Override
 	public void run() {
-		
 		GlobalState.mutex.P();
 		GlobalState.menQ.add(this);
 		GlobalState.mutex.V();
 		
 		while (true) {
-			// fill functionality here
-			
-			
 			GlobalState.mutex.P();
-		
 			if(GlobalState.numberOfWomenInCS > 0){
 				GlobalState.numberOfDelayedMen++;
 				if(!GlobalState.menQ.contains(this))
@@ -27,13 +22,12 @@ public class Man implements Runnable {
 				GlobalState.mutex.V();
 				GlobalState.menSem.P();
 			}
-			
-			if(GlobalState.numberOfMenInCS < 4){
-				if (TooManyMen){
-					TooManyMen = false;
-					GlobalState.numberOfWaitingMen--;
-				}
+			while(GlobalState.menQ.peek() != this)
+				doThings();
+			if(GlobalState.numberOfMenInCS < 4 /*&& GlobalState.menQ.peek() == this*/ && GlobalState.mansTurn){
+				GlobalState.menQ.poll();
 				GlobalState.numberOfMenInCS++;
+				GlobalState.increaseTurn();
 				GlobalState.signal();
 				
 				doThings();
@@ -41,26 +35,22 @@ public class Man implements Runnable {
 				GlobalState.mutex.P();
 				GlobalState.numberOfMenInCS--;
 				GlobalState.signal();	
-			
+			//	System.out.println("Man queue size: " + GlobalState.menQ.size());
+				//System.out.println("Woman queue size: " + GlobalState.womQ.size());
 				doThings();
 			} else {
-				if (TooManyMen == false){
-					GlobalState.numberOfWaitingMen++;
-					TooManyMen = true;
-				}
 				GlobalState.mutex.V();
 			}
+			System.out.println("M" + AndrewsProcess.currentAndrewsProcessId() + " is out.");
 		}
 	}
 
 	public static String getState(){ // printout on the global state
-		return "W " + AndrewsProcess.currentAndrewsProcessId()
+		return "M " + AndrewsProcess.currentAndrewsProcessId()
 				+ "  in CS, state: nm:" + GlobalState.numberOfMenInCS +
 				" nw:" + GlobalState.numberOfWomenInCS +
 				" dm:" + GlobalState.numberOfDelayedMen +
-				" wm:" + GlobalState.numberOfWaitingMen +
-				" dw:" + GlobalState.numberOfDelayedWomen +
-				" ww:" + GlobalState.numberOfWaitingWomen;
+				" dw:" + GlobalState.numberOfDelayedWomen;
 	}
 
 	// represents that processes are staying in a state for a while

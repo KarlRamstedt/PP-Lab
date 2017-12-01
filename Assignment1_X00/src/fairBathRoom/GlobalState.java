@@ -6,6 +6,7 @@ import java.util.*;
 import se.his.iit.it325g.common.AndrewsProcess;
 import se.his.iit.it325g.common.AndrewsSemaphore;
 
+
 /*
  * author: <C1, Erik, Björn, Mattias, Karl>
  */
@@ -18,7 +19,7 @@ public class GlobalState {
 
 	// adjusts the number of total processes
 	public volatile static int totalNumberOfWoman = 6;
-	public volatile static int totalNumberOfMan = 6;
+	public volatile static int totalNumberOfMan = 0;
 	// the number of people in the bathroom
 	public volatile static int numberOfWomenInCS = 0;
 	public volatile static int numberOfMenInCS = 0;
@@ -28,6 +29,10 @@ public class GlobalState {
 	// no function, just indicates how many are waiting on others of same gender
 	public volatile static int numberOfWaitingMen = 0;
 	public volatile static int numberOfWaitingWomen = 0;
+	
+	public volatile static int maxTurns = 5;
+	public volatile static int curTurn = 0;
+	public volatile static boolean mansTurn = true;
 	
 	public volatile static Queue<Man> menQ = new LinkedList<Man>();
 	public volatile static Queue<Woman> womQ = new LinkedList<Woman>();
@@ -53,6 +58,17 @@ public class GlobalState {
 		}
 	}
 	
+
+	
+	public static void increaseTurn(){
+		curTurn++;
+		if(curTurn >= maxTurns){
+			curTurn = 0;
+			mansTurn = !mansTurn;
+			
+		}
+	}
+	//SIGNAL IS MAIN ISSUE - LOOK CLOSELY ON MUTEX, DOESN'T CONSIDER TURN
 	public static void signal(){
 		if(numberOfWomenInCS == 0 && numberOfDelayedMen > 0){
 			numberOfDelayedMen--;
