@@ -17,38 +17,39 @@ public class Man implements Runnable {
 		while (true) {
 			// fill functionality here
 			
-			
-			GlobalState.mutex.P();
-		
-			if(GlobalState.numberOfWomenInCS > 0){
-				GlobalState.numberOfDelayedMen++;
-				if(!GlobalState.menQ.contains(this))
-					GlobalState.menQ.add(this);
-				GlobalState.mutex.V();
-				GlobalState.menSem.P();
-			}
-			
-			if(GlobalState.numberOfMenInCS < 4){
-				if (TooManyMen){
-					TooManyMen = false;
-					GlobalState.numberOfWaitingMen--;
-				}
-				GlobalState.numberOfMenInCS++;
-				GlobalState.signal();
-				
-				doThings();
-				System.out.println(getState());
+			if (GlobalState.menQ.peek() == this && MEN TURN){
 				GlobalState.mutex.P();
-				GlobalState.numberOfMenInCS--;
-				GlobalState.signal();	
 			
-				doThings();
-			} else {
-				if (TooManyMen == false){
-					GlobalState.numberOfWaitingMen++;
-					TooManyMen = true;
+				if(GlobalState.numberOfWomenInCS > 0){
+					GlobalState.numberOfDelayedMen++;
+					if(!GlobalState.menQ.contains(this))
+						GlobalState.menQ.add(this);
+					GlobalState.mutex.V();
+					GlobalState.menSem.P();
 				}
-				GlobalState.mutex.V();
+				
+				if(GlobalState.numberOfMenInCS < 4){ // lägg till om först i listan && om det är ditt köns tur
+					if (TooManyMen){
+						TooManyMen = false;
+						GlobalState.numberOfWaitingMen--;
+					}
+					GlobalState.numberOfMenInCS++;
+					GlobalState.signal();
+					
+					doThings();
+					System.out.println(getState());
+					GlobalState.mutex.P();
+					GlobalState.numberOfMenInCS--;
+					GlobalState.signal();	
+				
+					doThings();
+				} else {
+					if (TooManyMen == false){
+						GlobalState.numberOfWaitingMen++;
+						TooManyMen = true;
+					}
+					GlobalState.mutex.V();
+				}
 			}
 		}
 	}
