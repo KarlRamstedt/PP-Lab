@@ -5,6 +5,8 @@ import se.his.iit.it325g.common.AndrewsProcess;
 
 public class Woman implements Runnable {
 
+	boolean inQ = false;
+	
 	@Override
 	public void run() {
 		GlobalState.mutex.P();
@@ -13,25 +15,37 @@ public class Woman implements Runnable {
 		
 		while (true){				//poop loop
 			GlobalState.mutex.P();
-			if (GlobalState.men > 0 || GlobalState.wom >= 4 || /*GlobalState.womQ.peek() != this ||*/ GlobalState.menTurn){
+			if ((GlobalState.men > 0 || GlobalState.menTurn) && !inQ){
 				GlobalState.delayedWom++;
 				GlobalState.mutex.V();
 				GlobalState.semWom.P();
 			}
-			GlobalState.wom++;
-			GlobalState.womQ.poll(); //remove from queue
 			GlobalState.increaseTurn();
-			GlobalState.signal(); //release to next man
-			
-			doThings(); //poop
-			System.out.println(getState());
-			
-			GlobalState.mutex.P();
-			GlobalState.wom--;
-			GlobalState.womQ.add(this); //re-enter queue
-			GlobalState.signal();
-			
-			doThings(); //eat a burger to make more poop
+			if (GlobalState.wom >= 4 || GlobalState.womQ.peek() != this){	
+				if (inQ){
+					inQ = false;
+					GlobalState.quedWom--;
+				}
+				GlobalState.wom++;
+				GlobalState.womQ.poll(); //remove from queue
+				GlobalState.signal(); //release to next wom
+				
+				doThings(); //poop
+				System.out.println(getState());
+				
+				GlobalState.mutex.P();
+				GlobalState.wom--;
+				GlobalState.womQ.add(this); //re-enter queue
+				GlobalState.signal();
+				
+				doThings(); //eat a burger to make more poop
+			} else {
+				if (!inQ){
+					GlobalState.quedWom++;
+					inQ = true;
+				}
+				GlobalState.mutex.V();
+			}
 		}
 	}
 

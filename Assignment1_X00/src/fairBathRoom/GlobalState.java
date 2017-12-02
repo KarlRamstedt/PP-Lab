@@ -12,7 +12,6 @@ public class GlobalState {
 	public static AndrewsSemaphore mutex = new AndrewsSemaphore(1);
 	public static AndrewsSemaphore semMen = new AndrewsSemaphore(0);
 	public static AndrewsSemaphore semWom = new AndrewsSemaphore(0);
-	public static AndrewsSemaphore wMen = new AndrewsSemaphore(0);
 
 	// number of total processes
 	public volatile static int totalWom = 6;
@@ -24,8 +23,8 @@ public class GlobalState {
 	public volatile static int delayedMen = 0;
 	public volatile static int delayedWom = 0;
 	// for fairness
-	public volatile static int waitingMen = 0;
-	public volatile static int waitingWom = 0;
+	public volatile static int quedMen = 0;
+	public volatile static int quedWom = 0;
 	public volatile static int curTurn = 0;
 	public volatile static int maxTurns = 5;
 	public volatile static boolean menTurn = true;
