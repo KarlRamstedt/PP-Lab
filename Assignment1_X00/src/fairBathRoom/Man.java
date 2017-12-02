@@ -5,57 +5,44 @@ import se.his.iit.it325g.common.AndrewsProcess;
 
 public class Man implements Runnable {
 
-	boolean TooManyMen = false;
-	
 	@Override
 	public void run() {
 		GlobalState.mutex.P();
 		GlobalState.menQ.add(this);
 		GlobalState.mutex.V();
 		
-		while (true) {
+		while (true){				//poop loop
 			GlobalState.mutex.P();
-			if(GlobalState.numberOfWomenInCS > 0){
-				GlobalState.numberOfDelayedMen++;
-				if(!GlobalState.menQ.contains(this))
-					GlobalState.menQ.add(this);
+			if (GlobalState.wom > 0 || GlobalState.men >= 4 /*|| GlobalState.menQ.peek() != this*/ || !GlobalState.menTurn){ 
+				GlobalState.delayedMen++;
 				GlobalState.mutex.V();
-				GlobalState.menSem.P();
+				GlobalState.semMen.P();
 			}
-			while(GlobalState.menQ.peek() != this)
-				doThings();
-			if(GlobalState.numberOfMenInCS < 4 /*&& GlobalState.menQ.peek() == this*/ && GlobalState.mansTurn){
-				GlobalState.menQ.poll();
-				GlobalState.numberOfMenInCS++;
-				GlobalState.increaseTurn();
-				GlobalState.signal();
-				
-				doThings();
-				System.out.println(getState());
-				GlobalState.mutex.P();
-				GlobalState.numberOfMenInCS--;
-				GlobalState.signal();	
-			//	System.out.println("Man queue size: " + GlobalState.menQ.size());
-				//System.out.println("Woman queue size: " + GlobalState.womQ.size());
-				doThings();
-			} else {
-				GlobalState.mutex.V();
-			}
-			System.out.println("M" + AndrewsProcess.currentAndrewsProcessId() + " is out.");
+			GlobalState.men++;
+			GlobalState.menQ.poll(); //remove from queue
+			GlobalState.increaseTurn();
+			GlobalState.signal(); //release to next man
+			
+			doThings(); //poop
+			System.out.println(getState());
+			
+			GlobalState.mutex.P();
+			GlobalState.men--;
+			GlobalState.menQ.add(this); //re-enter queue
+			GlobalState.signal();
+			
+			doThings(); //eat a burger to make more poop
 		}
 	}
 
-	public static String getState(){ // printout on the global state
+	public static String getState(){ //printout the global state
 		return "M " + AndrewsProcess.currentAndrewsProcessId()
-				+ "  in CS, state: nm:" + GlobalState.numberOfMenInCS +
-				" nw:" + GlobalState.numberOfWomenInCS +
-				" dm:" + GlobalState.numberOfDelayedMen +
-				" dw:" + GlobalState.numberOfDelayedWomen;
+				+ "  in CS, state: nm:" + GlobalState.men +
+				" nw:" + GlobalState.wom +
+				" dm:" + GlobalState.delayedMen +
+				" dw:" + GlobalState.delayedWom;
 	}
-
-	// represents that processes are staying in a state for a while
-	private void doThings() {
-		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current()
-				.nextInt(100, 500));
+	private void doThings(){ //represents that processes are staying in a state for a while
+		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current().nextInt(100, 500));
 	}
 }
