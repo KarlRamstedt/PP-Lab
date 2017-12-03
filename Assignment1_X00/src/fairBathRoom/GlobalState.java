@@ -12,9 +12,7 @@ public class GlobalState {
 	public static AndrewsSemaphore mutex = new AndrewsSemaphore(1);
 	public static AndrewsSemaphore semMen = new AndrewsSemaphore(0);
 	public static AndrewsSemaphore semWom = new AndrewsSemaphore(0);
-	public static AndrewsSemaphore queSemMen = new AndrewsSemaphore(1);
-	public static AndrewsSemaphore queSemWom = new AndrewsSemaphore(1);
-	
+
 	// number of total processes
 	public volatile static int totalWom = 6;
 	public volatile static int totalMen = 6;
@@ -37,10 +35,6 @@ public class GlobalState {
 		ArrayList<AndrewsProcess> men = new ArrayList<>(); // contains man type processes
 		ArrayList<AndrewsProcess> women = new ArrayList<>(); // contains woman type processes
 
-		if (totalMen == 0){
-			menTurn = false;
-		}
-		
 		for (int i = 0; i < GlobalState.totalMen; i++) {
 			AndrewsProcess man = new AndrewsProcess(new Man());
 			man.start();
@@ -53,22 +47,14 @@ public class GlobalState {
 		}
 	}
 	public static void increaseTurn(){
-		if (totalMen == 0 || totalWom == 0){
-			curTurn++;
-			if(curTurn >= maxTurns){
-				curTurn = 0;
-				menTurn = !menTurn;
-			}
+		curTurn++;
+		if(curTurn >= maxTurns){
+			curTurn = 0;
+			menTurn = !menTurn;
 		}
 	}
 	public static void signal(){
-		if (wom == 0 && quedMen > 0 && menTurn){
-			quedMen--;
-			queSemMen.V();
-		} else if (men == 0 && quedWom > 0 && !menTurn){
-			quedMen--;
-			queSemWom.V();
-		} else if (wom == 0 && delayedMen > 0 && menTurn){
+		if(wom == 0 && delayedMen > 0 && menTurn){
 			delayedMen--;
 			semMen.V();
 		} else if (men == 0 && delayedWom > 0 && !menTurn){
