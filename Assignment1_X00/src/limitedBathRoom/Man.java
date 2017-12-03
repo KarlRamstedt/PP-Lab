@@ -58,6 +58,7 @@ public class Man implements Runnable {
 
 	// represents that processes are staying in a state for a while
 	private void doThings() {
-		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current().nextInt(100, 500));
+		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current()
+				.nextInt(100, 500));
 	}
 }

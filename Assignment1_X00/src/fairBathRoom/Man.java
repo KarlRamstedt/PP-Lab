@@ -5,7 +5,7 @@ import se.his.iit.it325g.common.AndrewsProcess;
 
 public class Man implements Runnable {
 
-	boolean inQ = false;
+	boolean TooManyMen = false;
 	
 	@Override
 	public void run() {
@@ -13,50 +13,70 @@ public class Man implements Runnable {
 		GlobalState.menQ.add(this);
 		GlobalState.mutex.V();
 		
-		while (true){				//poop loop
-			GlobalState.mutex.P();
-			if ((GlobalState.wom > 0 || !GlobalState.menTurn) && !inQ){ 
-				GlobalState.delayedMen++;
-				GlobalState.mutex.V();
-				GlobalState.semMen.P();
-			}
-			GlobalState.increaseTurn();
-			if (GlobalState.men >= 4 || GlobalState.menQ.peek() != this){
-				if (inQ){
-					inQ = false;
-					GlobalState.quedMen--;
-				}
-				GlobalState.men++;
-				GlobalState.menQ.poll(); //remove from queue
-				GlobalState.signal(); //release to next man
+		while (true) {
+
+			if(!GlobalState.menQ.contains(this)) {				// Om mannen ej finns i kön, lägg till.
 				
-				doThings(); //poop
+				GlobalState.menQ.add(this);
+			}
+			
+			GlobalState.mutex.P();								// Ber om tillgång till mutex.
+			
+			if(GlobalState.numberOfWomenInCS > 0) {				// Om kvinnor finns på toaletten.
+				
+				GlobalState.numberOfDelayedMen++;
+				
+				GlobalState.mutex.V();							// Lås upp mutex.
+				GlobalState.menSem.P();							// Blockera män.
+			}
+			
+			GlobalState.mutex.V();								// ?? Upplåsning mutex ??
+			
+			while(GlobalState.menQ.peek() != this) {			// Om inga kvinnor på toaletten, kolla vem som är först i kön.
+				
+				doThings();										// Vänta om ej först.
+			}
+			
+			//------------------------------------
+			
+			GlobalState.mutex.P();												// Ber om tillgång till mutex.
+			
+			if(GlobalState.numberOfMenInCS < 4 && GlobalState.mansTurn) {		// Den som är först i kön kollar om det är färre än 4 och männens tur.
+				
+				GlobalState.increaseTurn();										// Talar om att en av de fem tickets tagits av en man.
+				GlobalState.menQ.poll();										// Första mannen i kön tas bort.
+				GlobalState.numberOfMenInCS++;									// Antal män i CS + 1.
 				System.out.println(getState());
 				
-				GlobalState.mutex.P();
-				GlobalState.men--;
-				GlobalState.menQ.add(this); //re-enter queue
-				GlobalState.signal();
+				GlobalState.mutex.V();											// Släpper mutex.
 				
-				doThings(); //eat a burger to make more poop
+				doThings();
+				
+				GlobalState.mutex.P();											// Ber om tillgång till mutex.
+				GlobalState.numberOfMenInCS--;									// Antal män i CS - 1.
+				//System.out.println(getState());
+				GlobalState.signal();											// Släpper mutex, om inte män == 0.
+			
+				doThings();
+				
 			} else {
-				if (!inQ){
-					GlobalState.quedMen++;
-					inQ = true;
-				}
-				GlobalState.mutex.V();
+				
+				GlobalState.signal();
 			}
 		}
 	}
 
-	public static String getState(){ //printout the global state
+	public static String getState(){ // printout on the global state
 		return "M " + AndrewsProcess.currentAndrewsProcessId()
-				+ "  in CS, state: nm:" + GlobalState.men +
-				" nw:" + GlobalState.wom +
-				" dm:" + GlobalState.delayedMen +
-				" dw:" + GlobalState.delayedWom;
+				+ "  in CS, state: nm:" + GlobalState.numberOfMenInCS +
+				" nw:" + GlobalState.numberOfWomenInCS +
+				" dm:" + GlobalState.numberOfDelayedMen +
+				" dw:" + GlobalState.numberOfDelayedWomen;
 	}
-	private void doThings(){ //represents that processes are staying in a state for a while
-		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current().nextInt(100, 500));
+
+	// represents that processes are staying in a state for a while
+	private void doThings() {
+		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current()
+				.nextInt(100, 500));
 	}
 }
