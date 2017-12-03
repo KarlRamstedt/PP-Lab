@@ -45,6 +45,10 @@ public class GlobalState {
 		// contains woman type processes
 		ArrayList<AndrewsProcess> women = new ArrayList<>();
 
+		if (totalNumberOfMan <= 0){
+			mansTurn = false;
+		}
+		
 		for (int i = 0; i < GlobalState.totalNumberOfMan; i++) {
 			AndrewsProcess man = new AndrewsProcess(new Man());
 			man.start();
@@ -58,30 +62,25 @@ public class GlobalState {
 		}
 	}
 	
-
-	
 	public static void increaseTurn(){
-		curTurn++;
-		if(curTurn >= maxTurns){
-			curTurn = 0;
-			mansTurn = !mansTurn;
-			
+		if (totalNumberOfMan > 0 && totalNumberOfWoman > 0){
+			curTurn++;
+			if(curTurn >= maxTurns){
+				curTurn = 0;
+				mansTurn = !mansTurn;
+			}
 		}
 	}
-	//SIGNAL IS MAIN ISSUE - LOOK CLOSELY ON MUTEX, DOESN'T CONSIDER TURN
 	public static void signal(){
 		if(numberOfWomenInCS == 0 && numberOfDelayedMen > 0) {
-			
 			numberOfDelayedMen--;
 			menSem.V();
 		}
 		else if(numberOfMenInCS == 0 && numberOfDelayedWomen > 0) {
-			
 			numberOfDelayedWomen--;
 			womSem.V();
 		} 
 		else {
-			
 			mutex.V();
 		}
 	}
