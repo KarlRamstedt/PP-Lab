@@ -570,6 +570,12 @@ system SEM_0, SEM_1, SEM_2, M1, M2, W1, W2, G;	//Add semaphores and processes as
 			</comment>
 		</query>
 		<query>
+			<formula>A&lt;&gt; !(M1.ManCS &amp;&amp; M2.ManCS)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
 			<formula>A&lt;&gt; !(M1.MutCS &amp;&amp; M2.MutCS)
 			</formula>
 			<comment>
@@ -588,19 +594,13 @@ system SEM_0, SEM_1, SEM_2, M1, M2, W1, W2, G;	//Add semaphores and processes as
 			</comment>
 		</query>
 		<query>
-			<formula>E&lt;&gt; M &gt; 0
+			<formula>A[] (MD &gt;= 0  &amp;&amp; MD&lt;= M)
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
-			<formula>A[] (MD &gt;= 0  &amp;&amp; MD&lt;= M &amp;&amp; WD &gt;= 0 &amp;&amp; WD&lt;= W)
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>A[] (MCS &lt;= M &amp;&amp; WCS &lt;= W)
+			<formula>A[] (MCS &lt;= M)
 			</formula>
 			<comment>
 			</comment>
