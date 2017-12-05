@@ -16,28 +16,22 @@ public class Man implements Runnable {
 		while (true) {
 
 			if(!GlobalState.menQ.contains(this)) {				// Om mannen ej finns i kön, lägg till.
-				
 				GlobalState.menQ.add(this);
 			}
 			
 			GlobalState.mutex.P();								// Ber om tillgång till mutex.
 			
 			if(GlobalState.numberOfWomenInCS > 0) {				// Om kvinnor finns på toaletten.
-				
 				GlobalState.numberOfDelayedMen++;
 				
 				GlobalState.mutex.V();							// Lås upp mutex.
 				GlobalState.menSem.P();							// Blockera män.
 			}
-			
 			GlobalState.mutex.V();								// ?? Upplåsning mutex ??
 			
 			while(GlobalState.menQ.peek() != this) {			// Om inga kvinnor på toaletten, kolla vem som är först i kön.
-				
 				doThings();										// Vänta om ej först.
 			}
-			
-			//------------------------------------
 			
 			GlobalState.mutex.P();												// Ber om tillgång till mutex.
 			
@@ -54,13 +48,11 @@ public class Man implements Runnable {
 				
 				GlobalState.mutex.P();											// Ber om tillgång till mutex.
 				GlobalState.numberOfMenInCS--;									// Antal män i CS - 1.
-				//System.out.println(getState());
 				GlobalState.signal();											// Släpper mutex, om inte män == 0.
 			
 				doThings();
 				
 			} else {
-				
 				GlobalState.signal();
 			}
 		}
@@ -76,7 +68,6 @@ public class Man implements Runnable {
 
 	// represents that processes are staying in a state for a while
 	private void doThings() {
-		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current()
-				.nextInt(100, 500));
+		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current().nextInt(100, 500));
 	}
 }

@@ -16,29 +16,22 @@ public class Woman implements Runnable {
 		while (true) {
 			
 			if(!GlobalState.womQ.contains(this)) {
-				
 				GlobalState.womQ.add(this);
 			}
 			
 			GlobalState.mutex.P();
 			
 			if(GlobalState.numberOfMenInCS > 0) {
-				
 				GlobalState.numberOfDelayedWomen++;
 
 				GlobalState.mutex.V();
 				GlobalState.womSem.P();
 			}
-			
 			GlobalState.mutex.V();
 			
 			while(GlobalState.womQ.peek() != this) {
-				
-				//System.out.println("W" + AndrewsProcess.currentAndrewsProcessId() + " is waiting.");
 				doThings();
 			}
-			
-			//------------------------------------
 			
 			GlobalState.mutex.P();
 			
@@ -55,13 +48,11 @@ public class Woman implements Runnable {
 		
 				GlobalState.mutex.P();
 				GlobalState.numberOfWomenInCS--;
-				//System.out.println(getState());
 				GlobalState.signal();
 				
 				doThings();
 				
 			} else {
-			
 				GlobalState.signal();
 			}
 		}
@@ -77,7 +68,6 @@ public class Woman implements Runnable {
 
 	// represents that processes are staying in a state for a while
 	private void doThings() {
-		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current()
-				.nextInt(100, 500));
+		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current().nextInt(100, 500));
 	}
 }
