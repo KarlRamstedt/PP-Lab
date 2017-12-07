@@ -558,19 +558,13 @@ G = Hurry ();
 system SEM_0, SEM_1, SEM_2, M1, M2, W1, W2, G;	//Add semaphores and processes as needed</system>
 	<queries>
 		<query>
-			<formula>M1.Start --&gt; M1.Start
+			<formula>M1.MutCS --&gt; M1.Sig1End
 			</formula>
 			<comment>
 			</comment>
 		</query>
 		<query>
 			<formula>M1.MutCS2 --&gt; M1.Sig2End
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>A&lt;&gt; !(M1.ManCS &amp;&amp; M2.ManCS)
 			</formula>
 			<comment>
 			</comment>
@@ -589,24 +583,6 @@ system SEM_0, SEM_1, SEM_2, M1, M2, W1, W2, G;	//Add semaphores and processes as
 		</query>
 		<query>
 			<formula>A[] !deadlock
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>A[] (MD &gt;= 0  &amp;&amp; MD&lt;= M)
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>A[] (MCS &lt;= M)
-			</formula>
-			<comment>
-			</comment>
-		</query>
-		<query>
-			<formula>E&lt;&gt; (M &gt; 0 || W &gt; 0)
 			</formula>
 			<comment>
 			</comment>

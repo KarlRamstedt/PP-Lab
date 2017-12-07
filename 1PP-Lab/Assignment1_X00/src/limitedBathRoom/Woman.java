@@ -1,4 +1,4 @@
-package fairBathRoom;
+package limitedBathRoom;
 import java.util.concurrent.ThreadLocalRandom;
 
 import se.his.iit.it325g.common.AndrewsProcess;
@@ -9,51 +9,39 @@ public class Woman implements Runnable {
 	
 	@Override
 	public void run() {
-		GlobalState.mutex.P();
-		GlobalState.womQ.add(this);
-		GlobalState.mutex.V();
-		
 		while (true) {
-			
-			if(!GlobalState.womQ.contains(this)) {
-				GlobalState.womQ.add(this);
-			}
+			// fill functionality here
 			
 			GlobalState.mutex.P();
 			
-			if(GlobalState.numberOfMenInCS > 0) {
+			if(GlobalState.numberOfMenInCS > 0){
 				GlobalState.numberOfDelayedWomen++;
-
+				
 				GlobalState.mutex.V();
 				GlobalState.womSem.P();
 			}
-			GlobalState.mutex.V();
 			
-			while(GlobalState.womQ.peek() != this) {
-				doThings();
-			}
-			
-			GlobalState.mutex.P();
-			
-			if(GlobalState.numberOfWomenInCS < 4 && !GlobalState.mansTurn){
-				
-				GlobalState.increaseTurn();
-				GlobalState.womQ.poll();
+			if(GlobalState.numberOfWomenInCS < 4){
+				if (TooManyWomen){
+					TooManyWomen = false;
+					GlobalState.numberOfWaitingWomen--;
+				}
 				GlobalState.numberOfWomenInCS++;
-				System.out.println(getState());
-				
-				GlobalState.mutex.V();
-		
+				GlobalState.signal();
+			
 				doThings();
-		
+				System.out.println(getState());
 				GlobalState.mutex.P();
 				GlobalState.numberOfWomenInCS--;
 				GlobalState.signal();
 				
 				doThings();
-				
 			} else {
-				GlobalState.signal();
+				if (TooManyWomen == false){
+					GlobalState.numberOfWaitingWomen++;
+					TooManyWomen = true;
+				}
+				GlobalState.mutex.V();
 			}
 		}
 	}
@@ -63,7 +51,9 @@ public class Woman implements Runnable {
 				+ "  in CS, state: nm:" + GlobalState.numberOfMenInCS +
 				" nw:" + GlobalState.numberOfWomenInCS +
 				" dm:" + GlobalState.numberOfDelayedMen +
-				" dw:" + GlobalState.numberOfDelayedWomen;
+				" wm:" + GlobalState.numberOfWaitingMen +
+				" dw:" + GlobalState.numberOfDelayedWomen +
+				" ww:" + GlobalState.numberOfWaitingWomen;
 	}
 
 	// represents that processes are staying in a state for a while

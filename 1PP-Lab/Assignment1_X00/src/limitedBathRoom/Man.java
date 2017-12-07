@@ -3,9 +3,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import se.his.iit.it325g.common.AndrewsProcess;
 
-public class Woman implements Runnable {
-	
-	boolean TooManyWomen = false;
+public class Man implements Runnable {
+
+	boolean TooManyMen = false;
 	
 	@Override
 	public void run() {
@@ -13,33 +13,33 @@ public class Woman implements Runnable {
 			// fill functionality here
 			
 			GlobalState.mutex.P();
-			
-			if(GlobalState.numberOfMenInCS > 0){
-				GlobalState.numberOfDelayedWomen++;
+		
+			if(GlobalState.numberOfWomenInCS > 0){
+				GlobalState.numberOfDelayedMen++;
 				
 				GlobalState.mutex.V();
-				GlobalState.womSem.P();
+				GlobalState.menSem.P();
 			}
 			
-			if(GlobalState.numberOfWomenInCS < 4){
-				if (TooManyWomen){
-					TooManyWomen = false;
-					GlobalState.numberOfWaitingWomen--;
+			if(GlobalState.numberOfMenInCS < 4){
+				if (TooManyMen){
+					TooManyMen = false;
+					GlobalState.numberOfWaitingMen--;
 				}
-				GlobalState.numberOfWomenInCS++;
+				GlobalState.numberOfMenInCS++;
 				GlobalState.signal();
-			
+				
 				doThings();
 				System.out.println(getState());
 				GlobalState.mutex.P();
-				GlobalState.numberOfWomenInCS--;
-				GlobalState.signal();
-				
+				GlobalState.numberOfMenInCS--;
+				GlobalState.signal();	
+			
 				doThings();
 			} else {
-				if (TooManyWomen == false){
-					GlobalState.numberOfWaitingWomen++;
-					TooManyWomen = true;
+				if (TooManyMen == false){
+					GlobalState.numberOfWaitingMen++;
+					TooManyMen = true;
 				}
 				GlobalState.mutex.V();
 			}
@@ -58,7 +58,6 @@ public class Woman implements Runnable {
 
 	// represents that processes are staying in a state for a while
 	private void doThings() {
-		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current()
-				.nextInt(100, 500));
+		AndrewsProcess.uninterruptibleMinimumDelay(ThreadLocalRandom.current().nextInt(100, 500));
 	}
 }
