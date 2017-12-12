@@ -11,8 +11,8 @@ public class Agent implements Runnable {
 
 	
 	@Override
-	public void run() {
-		while (true) {
+	public void run(){
+		while (true){
 			SendASenseOfPrideAndAccomplishment(3); //RANDOM PREVENTS FAIRNESS
 			GlobalState.agentChan.receive();
 			//FAIRNESS NOT POSSIBLE SEQUENTIALLY WHEN SERVER/CLIENT, DO TIME-BASED

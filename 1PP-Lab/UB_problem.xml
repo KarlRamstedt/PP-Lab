@@ -582,6 +582,30 @@ system SEM_0, SEM_1, SEM_2, M1, M2, W1, W2, G;	//Add semaphores and processes as
 			</comment>
 		</query>
 		<query>
+			<formula>(M1.Sig1End) --&gt; (M2.MutCS || W1.MutCS || W2.MutCS)0
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] !(MCS &lt;= M &amp;&amp; WCS &lt;= W)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(MCS &gt; 0) --&gt; (WCS == 0)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(WCS &gt; 0) --&gt; (MCS == 0)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
 			<formula>A[] !deadlock
 			</formula>
 			<comment>

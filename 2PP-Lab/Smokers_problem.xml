@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>//Insert declarations of global clocks, variables, constants and channels.
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>//Insert declarations of global clocks, variables, constants and channels.
 
 const int n = 4; 	//number of processes, used here to determine the minmum length of a message buffer (hence, minimizing state space)
 const int m = 1;	//Replace 1 with the number of channels
@@ -10,29 +13,256 @@ urgent chan send[m];
 urgent chan receive[m];
 urgent chan Go;
 
-</declaration><template><name x="5" y="5">Agent</name><parameter>const int id</parameter><declaration>
+</declaration>
+	<template>
+		<name x="5" y="5">Agent</name>
+		<parameter>const int id</parameter>
+		<declaration>
 
 int tobacco = 0; 	//Amount of tobacco on the table
 int paper = 0; 		//Amount of paper on the table
 int matches =0; 	//Amount of matches on the table
 int myInMsg[arg];
-int myOutMsg[arg];</declaration><location id="id0" x="-56" y="376"></location><location id="id1" x="360" y="376"><name x="384" y="360">ItemsPlaced</name></location><location id="id2" x="360" y="104"><name x="376" y="88">PlaceItems</name></location><location id="id3" x="-56" y="104"><name x="-112" y="96">Initial</name></location><init ref="id3"/><transition><source ref="id0"/><target ref="id3"/></transition><transition><source ref="id2"/><target ref="id1"/></transition><transition><source ref="id1"/><target ref="id0"/></transition><transition><source ref="id3"/><target ref="id2"/></transition></template><template><name x="5" y="5">Smoker</name><parameter>const int id</parameter><declaration>
+int myOutMsg[arg];</declaration>
+		<location id="id0" x="399" y="110">
+			<name x="389" y="76">Receive</name>
+		</location>
+		<location id="id1" x="110" y="204">
+			<name x="85" y="170">case2</name>
+		</location>
+		<location id="id2" x="110" y="110">
+			<name x="85" y="76">case1</name>
+		</location>
+		<location id="id3" x="110" y="25">
+			<name x="85" y="-9">case0</name>
+		</location>
+		<location id="id4" x="-34" y="110">
+			<name x="-54" y="82">Start</name>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id4"/>
+			<label kind="guard" x="51" y="289">receive[0]</label>
+			<label kind="synchronisation" x="51" y="306">Go ?</label>
+			<nail x="399" y="289"/>
+			<nail x="-34" y="289"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="195" y="-1">Go ?</label>
+			<label kind="assignment" x="195" y="8">send[2]</label>
+			<nail x="212" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="195" y="-68">Go ?</label>
+			<label kind="assignment" x="195" y="-51">send[3]</label>
+			<nail x="212" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="195" y="136">Go ?</label>
+			<label kind="assignment" x="195" y="145">send[1]</label>
+			<nail x="212" y="153"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="195" y="68">Go ?</label>
+			<label kind="assignment" x="195" y="77">send[3]</label>
+			<nail x="212" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="195" y="246">Go ?</label>
+			<label kind="assignment" x="195" y="255">send[1]</label>
+			<nail x="212" y="255"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="195" y="187">Go ?</label>
+			<label kind="assignment" x="195" y="196">send[2]</label>
+			<nail x="212" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-16" y="63">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-16" y="123">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-16" y="93">Go ?</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Smoker</name>
+		<parameter>const int id</parameter>
+		<declaration>int type;
+int pid;
 int myInMsg[arg];
-int myOutMsg[arg];</declaration><location id="id4" x="104" y="176"><name x="96" y="192">PickingUp</name></location><location id="id5" x="104" y="40"><name x="94" y="10">Smoking</name></location><location id="id6" x="352" y="40"><name x="320" y="8">NeedSmoke</name></location><location id="id7" x="352" y="176"><name x="328" y="192">ItemsThere</name></location><init ref="id6"/><transition><source ref="id4"/><target ref="id5"/></transition><transition><source ref="id7"/><target ref="id4"/></transition><transition><source ref="id5"/><target ref="id6"/></transition><transition><source ref="id6"/><target ref="id7"/></transition></template><template><name x="5" y="5">Hurry</name><location id="id8" x="312" y="208"></location><init ref="id8"/><transition><source ref="id8"/><target ref="id8"/><label kind="synchronisation" x="376" y="200">Go!</label><nail x="368" y="184"/><nail x="368" y="240"/></transition></template><template><name x="5" y="5">Channel</name><parameter>const int ChId</parameter><declaration>
+int myOutMsg[arg];</declaration>
+		<location id="id5" x="170" y="-314">
+			<name x="160" y="-348">Start</name>
+		</location>
+		<location id="id6" x="76" y="-67">
+		</location>
+		<location id="id7" x="170" y="-67">
+		</location>
+		<location id="id8" x="272" y="-67">
+		</location>
+		<location id="id9" x="170" y="51">
+			<name x="153" y="59">Blazeit</name>
+		</location>
+		<location id="id10" x="170" y="-195">
+			<name x="187" y="-212">CheckForItems</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="170" y="-297">Go ?</label>
+			<label kind="assignment" x="170" y="-280">type = id%3</label>
+			<label kind="comments" x="178" y="-255">WILL ID WORK!?</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id9"/>
+			<label kind="guard" x="34" y="-42">receive[1]</label>
+			<label kind="synchronisation" x="34" y="-25">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="246" y="-42">receive[3]</label>
+			<label kind="synchronisation" x="246" y="-25">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="guard" x="136" y="-42">receive[2]</label>
+			<label kind="synchronisation" x="136" y="-25">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id6"/>
+			<label kind="guard" x="51" y="-152">type == 0</label>
+			<label kind="synchronisation" x="51" y="-135">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id8"/>
+			<label kind="guard" x="221" y="-152">type == 2</label>
+			<label kind="synchronisation" x="263" y="-135">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="-26" y="-85">send[0]</label>
+			<nail x="25" y="51"/>
+			<nail x="25" y="-195"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id7"/>
+			<label kind="guard" x="136" y="-152">type == 1</label>
+			<label kind="synchronisation" x="136" y="-135">Go ?</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Hurry</name>
+		<location id="id11" x="312" y="208">
+		</location>
+		<init ref="id11"/>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="376" y="200">Go!</label>
+			<nail x="368" y="184"/>
+			<nail x="368" y="240"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Channel</name>
+		<parameter>const int ChId</parameter>
+		<declaration>
 
 int buff[n][arg];
 int count = 0;
-int tmp = 0;</declaration><location id="id9" x="472" y="192"><committed/></location><location id="id10" x="360" y="256"><committed/></location><location id="id11" x="256" y="184"></location><init ref="id11"/><transition><source ref="id10"/><target ref="id11"/><label kind="guard" x="272" y="200">tmp==count</label><label kind="assignment" x="272" y="216">tmp=0</label></transition><transition><source ref="id9"/><target ref="id10"/><label kind="assignment" x="392" y="120">buff[tmp] = buff[tmp+1],
-tmp++</label><nail x="360" y="192"/></transition><transition><source ref="id10"/><target ref="id9"/><label kind="guard" x="400" y="232">tmp&lt;count</label><nail x="472" y="256"/></transition><transition><source ref="id11"/><target ref="id11"/><label kind="synchronisation" x="208" y="56">send[ChId]?</label><label kind="assignment" x="208" y="72">buff[count] = msg,
-count++</label><nail x="216" y="112"/><nail x="296" y="112"/></transition><transition><source ref="id11"/><target ref="id10"/><label kind="guard" x="216" y="256">count&gt;0</label><label kind="synchronisation" x="216" y="272">receive[ChId]!</label><label kind="assignment" x="216" y="288">msg = buff[0],
-count--</label><nail x="256" y="256"/><nail x="296" y="256"/></transition></template><system>//Insert process assignments to get more instances of a template.
+int tmp = 0;</declaration>
+		<location id="id12" x="472" y="192">
+			<committed/>
+		</location>
+		<location id="id13" x="360" y="256">
+			<committed/>
+		</location>
+		<location id="id14" x="256" y="184">
+		</location>
+		<init ref="id14"/>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="272" y="200">tmp==count</label>
+			<label kind="assignment" x="272" y="216">tmp=0</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="assignment" x="392" y="120">buff[tmp] = buff[tmp+1],
+tmp++</label>
+			<nail x="360" y="192"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="guard" x="400" y="232">tmp&lt;count</label>
+			<nail x="472" y="256"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="208" y="56">send[ChId]?</label>
+			<label kind="assignment" x="208" y="72">buff[count] = msg,
+count++</label>
+			<nail x="216" y="112"/>
+			<nail x="296" y="112"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="guard" x="216" y="256">count&gt;0</label>
+			<label kind="synchronisation" x="216" y="272">receive[ChId]!</label>
+			<label kind="assignment" x="216" y="288">msg = buff[0],
+count--</label>
+			<nail x="256" y="256"/>
+			<nail x="296" y="256"/>
+		</transition>
+	</template>
+	<system>//Insert process assignments to get more instances of a template.
 A = Agent ( 0 );
 S1 = Smoker ( 1 );			
 S2 = Smoker ( 2 );			
 S3 = Smoker ( 3 );			
 H = Hurry( );
-Ch0 = Channel( 0 ); // Add an instance for each additional channel
+Ch0 = Channel( 0 ); //Agent
+Ch1 = Channel( 1 ); //Smoker 1... e.t.c.
+Ch2 = Channel( 2 );
+Ch3 = Channel( 3 );
 
 //System definition.
-system A,S1,S2,S3,Ch0,H; 			//Add the template instances you want to include in simulation
-</system></nta>
+system A,S1,S2,S3,Ch0,Ch1,Ch2,Ch3,H; 			//Add the template instances you want to include in simulation
+</system>
+	<queries>
+	</queries>
+</nta>
