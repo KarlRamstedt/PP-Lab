@@ -6,7 +6,7 @@ import se.his.iit.it325g.common.AndrewsProcess;
 import se.his.iit.it325g.common.AsynchronousChan;
 
 public class GlobalState {
-	private final static int numberOfSmokers = 3;
+	private final static int numberOfSmokers = 1000;
 	
 	public volatile static AsynchronousChan<Integer> smokChan1 = new AsynchronousChan<Integer>();
 	public volatile static AsynchronousChan<Integer> smokChan2 = new AsynchronousChan<Integer>();
@@ -27,4 +27,3 @@ public class GlobalState {
 		}
 	}
 }
-

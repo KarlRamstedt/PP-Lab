@@ -4,7 +4,7 @@
 	<declaration>//Insert declarations of global clocks, variables, constants and channels.
 
 const int n = 4; 	//number of processes, used here to determine the minmum length of a message buffer (hence, minimizing state space)
-const int m = 1;	//Replace 1 with the number of channels
+const int m = 4;	//Replace 1 with the number of channels
 const int arg = 1;	//Replaxe 1 with the maximum number of arguments you send on any channel
 
 int msg[arg];		//Emulating the message sent on channel
@@ -23,87 +23,140 @@ int tobacco = 0; 	//Amount of tobacco on the table
 int paper = 0; 		//Amount of paper on the table
 int matches =0; 	//Amount of matches on the table
 int myInMsg[arg];
-int myOutMsg[arg];</declaration>
-		<location id="id0" x="399" y="110">
-			<name x="389" y="76">Receive</name>
+int myOutMsg[arg];
+int i;</declaration>
+		<location id="id0" x="34" y="110">
 		</location>
-		<location id="id1" x="110" y="204">
-			<name x="85" y="170">case2</name>
+		<location id="id1" x="433" y="110">
+			<name x="423" y="76">Receive</name>
 		</location>
-		<location id="id2" x="110" y="110">
-			<name x="85" y="76">case1</name>
+		<location id="id2" x="178" y="221">
+			<name x="153" y="187">case2</name>
 		</location>
-		<location id="id3" x="110" y="25">
-			<name x="85" y="-9">case0</name>
+		<location id="id3" x="178" y="110">
+			<name x="153" y="76">case1</name>
 		</location>
-		<location id="id4" x="-34" y="110">
-			<name x="-54" y="82">Start</name>
+		<location id="id4" x="178" y="8">
+			<name x="153" y="-26">case0</name>
 		</location>
-		<init ref="id4"/>
+		<location id="id5" x="-51" y="110">
+			<name x="-71" y="82">Start</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="34" y="221">i == 2</label>
+			<label kind="synchronisation" x="34" y="238">Go ?</label>
+			<label kind="assignment" x="34" y="255">i = 2</label>
+			<nail x="34" y="221"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id3"/>
+			<label kind="guard" x="110" y="119">i == 1</label>
+			<label kind="synchronisation" x="110" y="136">Go ?</label>
+			<label kind="assignment" x="110" y="153">i = 2</label>
+			<nail x="136" y="127"/>
+		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id4"/>
-			<label kind="guard" x="51" y="289">receive[0]</label>
-			<label kind="synchronisation" x="51" y="306">Go ?</label>
-			<nail x="399" y="289"/>
-			<nail x="-34" y="289"/>
+			<label kind="guard" x="34" y="-42">i == 0</label>
+			<label kind="synchronisation" x="34" y="-25">Go ?</label>
+			<label kind="assignment" x="34" y="-9">i = 1</label>
+			<nail x="34" y="8"/>
 		</transition>
 		<transition>
-			<source ref="id3"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="195" y="-1">Go ?</label>
-			<label kind="assignment" x="195" y="8">send[2]</label>
-			<nail x="212" y="25"/>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="42" y="136">i == 2</label>
+			<label kind="synchronisation" x="42" y="153">Go ?</label>
+			<label kind="assignment" x="42" y="170">i = 1</label>
 		</transition>
 		<transition>
-			<source ref="id3"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="195" y="-68">Go ?</label>
-			<label kind="assignment" x="195" y="-51">send[3]</label>
-			<nail x="212" y="-34"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="195" y="136">Go ?</label>
-			<label kind="assignment" x="195" y="145">send[1]</label>
-			<nail x="212" y="153"/>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="195" y="68">Go ?</label>
-			<label kind="assignment" x="195" y="77">send[3]</label>
-			<nail x="212" y="68"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="195" y="246">Go ?</label>
-			<label kind="assignment" x="195" y="255">send[1]</label>
-			<nail x="212" y="255"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="195" y="187">Go ?</label>
-			<label kind="assignment" x="195" y="196">send[2]</label>
-			<nail x="212" y="204"/>
-		</transition>
-		<transition>
-			<source ref="id4"/>
+			<source ref="id0"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="-16" y="63">Go ?</label>
+			<label kind="guard" x="110" y="51">i == 1</label>
+			<label kind="synchronisation" x="110" y="68">Go ?</label>
+			<label kind="assignment" x="110" y="85">i = 1</label>
+			<nail x="136" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id4"/>
+			<label kind="guard" x="42" y="34">i == 0</label>
+			<label kind="synchronisation" x="42" y="51">Go ?</label>
+			<label kind="assignment" x="42" y="68">i = 2</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="51" y="306">receive[0]?</label>
+			<nail x="433" y="306"/>
+			<nail x="-51" y="306"/>
 		</transition>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id1"/>
-			<label kind="synchronisation" x="-16" y="123">Go ?</label>
+			<label kind="guard" x="263" y="8">i != 1</label>
+			<label kind="synchronisation" x="263" y="25">send[2]!</label>
+			<nail x="314" y="8"/>
 		</transition>
 		<transition>
 			<source ref="id4"/>
-			<target ref="id2"/>
-			<label kind="synchronisation" x="-16" y="93">Go ?</label>
+			<target ref="id1"/>
+			<label kind="guard" x="297" y="-59">i == 1</label>
+			<label kind="synchronisation" x="297" y="-42">send[3]!</label>
+			<nail x="314" y="-25"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="297" y="127">i != 1</label>
+			<label kind="synchronisation" x="297" y="144">send[1]!</label>
+			<nail x="314" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="297" y="51">i == 1</label>
+			<label kind="synchronisation" x="297" y="68">send[3]!</label>
+			<nail x="314" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="289" y="255">i != 1</label>
+			<label kind="synchronisation" x="289" y="272">send[1]!</label>
+			<nail x="314" y="255"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="263" y="187">i == 1</label>
+			<label kind="synchronisation" x="263" y="204">send[2]!</label>
+			<nail x="314" y="221"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-25" y="93">Go ?</label>
+			<label kind="assignment" x="-25" y="110">i = 1</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-25" y="186">Go ?</label>
+			<label kind="assignment" x="-25" y="169">i = 2</label>
+			<nail x="-8" y="178"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-25" y="17">Go ?</label>
+			<label kind="assignment" x="-25" y="34">i = 0</label>
+			<nail x="-8" y="42"/>
 		</transition>
 	</template>
 	<template>
@@ -113,81 +166,81 @@ int myOutMsg[arg];</declaration>
 int pid;
 int myInMsg[arg];
 int myOutMsg[arg];</declaration>
-		<location id="id5" x="170" y="-314">
+		<location id="id6" x="170" y="-314">
 			<name x="160" y="-348">Start</name>
 		</location>
-		<location id="id6" x="76" y="-67">
+		<location id="id7" x="76" y="-67">
+			<name x="42" y="-102">PickingUp0</name>
 		</location>
-		<location id="id7" x="170" y="-67">
+		<location id="id8" x="170" y="-67">
+			<name x="136" y="-102">PickingUp1</name>
 		</location>
-		<location id="id8" x="272" y="-67">
+		<location id="id9" x="272" y="-67">
+			<name x="238" y="-102">PickingUp2</name>
 		</location>
-		<location id="id9" x="170" y="51">
+		<location id="id10" x="170" y="51">
 			<name x="153" y="59">Blazeit</name>
 		</location>
-		<location id="id10" x="170" y="-195">
+		<location id="id11" x="170" y="-195">
 			<name x="187" y="-212">CheckForItems</name>
 		</location>
-		<init ref="id5"/>
+		<init ref="id6"/>
 		<transition>
-			<source ref="id5"/>
-			<target ref="id10"/>
+			<source ref="id6"/>
+			<target ref="id11"/>
 			<label kind="synchronisation" x="170" y="-297">Go ?</label>
 			<label kind="assignment" x="170" y="-280">type = id%3</label>
 			<label kind="comments" x="178" y="-255">WILL ID WORK!?</label>
 		</transition>
 		<transition>
-			<source ref="id6"/>
-			<target ref="id9"/>
-			<label kind="guard" x="34" y="-42">receive[1]</label>
-			<label kind="synchronisation" x="34" y="-25">Go ?</label>
-		</transition>
-		<transition>
-			<source ref="id8"/>
-			<target ref="id9"/>
-			<label kind="guard" x="246" y="-42">receive[3]</label>
-			<label kind="synchronisation" x="246" y="-25">Go ?</label>
-		</transition>
-		<transition>
 			<source ref="id7"/>
-			<target ref="id9"/>
-			<label kind="guard" x="136" y="-42">receive[2]</label>
-			<label kind="synchronisation" x="136" y="-25">Go ?</label>
-		</transition>
-		<transition>
-			<source ref="id10"/>
-			<target ref="id6"/>
-			<label kind="guard" x="51" y="-152">type == 0</label>
-			<label kind="synchronisation" x="51" y="-135">Go ?</label>
-		</transition>
-		<transition>
-			<source ref="id10"/>
-			<target ref="id8"/>
-			<label kind="guard" x="221" y="-152">type == 2</label>
-			<label kind="synchronisation" x="263" y="-135">Go ?</label>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="34" y="-42">receive[1]?</label>
 		</transition>
 		<transition>
 			<source ref="id9"/>
 			<target ref="id10"/>
-			<label kind="assignment" x="-26" y="-85">send[0]</label>
+			<label kind="synchronisation" x="246" y="-42">receive[3]?</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="136" y="-42">receive[2]?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id7"/>
+			<label kind="guard" x="51" y="-152">type == 0</label>
+			<label kind="synchronisation" x="51" y="-135">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id9"/>
+			<label kind="guard" x="221" y="-152">type == 2</label>
+			<label kind="synchronisation" x="263" y="-135">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-34" y="-68">send[0]!</label>
 			<nail x="25" y="51"/>
 			<nail x="25" y="-195"/>
 		</transition>
 		<transition>
-			<source ref="id10"/>
-			<target ref="id7"/>
+			<source ref="id11"/>
+			<target ref="id8"/>
 			<label kind="guard" x="136" y="-152">type == 1</label>
 			<label kind="synchronisation" x="136" y="-135">Go ?</label>
 		</transition>
 	</template>
 	<template>
 		<name x="5" y="5">Hurry</name>
-		<location id="id11" x="312" y="208">
+		<location id="id12" x="312" y="208">
 		</location>
-		<init ref="id11"/>
+		<init ref="id12"/>
 		<transition>
-			<source ref="id11"/>
-			<target ref="id11"/>
+			<source ref="id12"/>
+			<target ref="id12"/>
 			<label kind="synchronisation" x="376" y="200">Go!</label>
 			<nail x="368" y="184"/>
 			<nail x="368" y="240"/>
@@ -201,37 +254,37 @@ int myOutMsg[arg];</declaration>
 int buff[n][arg];
 int count = 0;
 int tmp = 0;</declaration>
-		<location id="id12" x="472" y="192">
+		<location id="id13" x="472" y="192">
 			<committed/>
 		</location>
-		<location id="id13" x="360" y="256">
+		<location id="id14" x="360" y="256">
 			<committed/>
 		</location>
-		<location id="id14" x="256" y="184">
+		<location id="id15" x="256" y="184">
 		</location>
-		<init ref="id14"/>
+		<init ref="id15"/>
 		<transition>
-			<source ref="id13"/>
-			<target ref="id14"/>
+			<source ref="id14"/>
+			<target ref="id15"/>
 			<label kind="guard" x="272" y="200">tmp==count</label>
 			<label kind="assignment" x="272" y="216">tmp=0</label>
 		</transition>
 		<transition>
-			<source ref="id12"/>
-			<target ref="id13"/>
+			<source ref="id13"/>
+			<target ref="id14"/>
 			<label kind="assignment" x="392" y="120">buff[tmp] = buff[tmp+1],
 tmp++</label>
 			<nail x="360" y="192"/>
 		</transition>
 		<transition>
-			<source ref="id13"/>
-			<target ref="id12"/>
+			<source ref="id14"/>
+			<target ref="id13"/>
 			<label kind="guard" x="400" y="232">tmp&lt;count</label>
 			<nail x="472" y="256"/>
 		</transition>
 		<transition>
-			<source ref="id14"/>
-			<target ref="id14"/>
+			<source ref="id15"/>
+			<target ref="id15"/>
 			<label kind="synchronisation" x="208" y="56">send[ChId]?</label>
 			<label kind="assignment" x="208" y="72">buff[count] = msg,
 count++</label>
@@ -239,8 +292,8 @@ count++</label>
 			<nail x="296" y="112"/>
 		</transition>
 		<transition>
-			<source ref="id14"/>
-			<target ref="id13"/>
+			<source ref="id15"/>
+			<target ref="id14"/>
 			<label kind="guard" x="216" y="256">count&gt;0</label>
 			<label kind="synchronisation" x="216" y="272">receive[ChId]!</label>
 			<label kind="assignment" x="216" y="288">msg = buff[0],
@@ -264,5 +317,23 @@ Ch3 = Channel( 3 );
 system A,S1,S2,S3,Ch0,Ch1,Ch2,Ch3,H; 			//Add the template instances you want to include in simulation
 </system>
 	<queries>
+		<query>
+			<formula>A.Start --&gt; A.Receive
+			</formula>
+			<comment>The agent will eventually continue to the critical section
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (A.case0 || A.case1 || A.case2) &amp;&amp; (S1.PickingUp0 || S1.PickingUp1 || S1.PickingUp2)
+			</formula>
+			<comment>This is a check for mutual exclusion between the agent and a smoker.
+			</comment>
+		</query>
+		<query>
+			<formula>A[] ! deadlock
+			</formula>
+			<comment>Not deadlock should be a global invariant.
+			</comment>
+		</query>
 	</queries>
 </nta>
