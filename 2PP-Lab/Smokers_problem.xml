@@ -163,7 +163,6 @@ int i;</declaration>
 		<name x="5" y="5">Smoker</name>
 		<parameter>const int id</parameter>
 		<declaration>int type;
-int pid;
 int myInMsg[arg];
 int myOutMsg[arg];</declaration>
 		<location id="id6" x="170" y="-314">
@@ -179,7 +178,7 @@ int myOutMsg[arg];</declaration>
 			<name x="238" y="-102">PickingUp2</name>
 		</location>
 		<location id="id10" x="170" y="51">
-			<name x="153" y="59">Blazeit</name>
+			<name x="153" y="59">Smoke</name>
 		</location>
 		<location id="id11" x="170" y="-195">
 			<name x="187" y="-212">CheckForItems</name>
@@ -190,7 +189,6 @@ int myOutMsg[arg];</declaration>
 			<target ref="id11"/>
 			<label kind="synchronisation" x="170" y="-297">Go ?</label>
 			<label kind="assignment" x="170" y="-280">type = id%3</label>
-			<label kind="comments" x="178" y="-255">WILL ID WORK!?</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
@@ -317,6 +315,54 @@ Ch3 = Channel( 3 );
 system A,S1,S2,S3,Ch0,Ch1,Ch2,Ch3,H; 			//Add the template instances you want to include in simulation
 </system>
 	<queries>
+		<query>
+			<formula>S1.PickingUp2  --&gt; S1.Smoke
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>S1.PickingUp1  --&gt; S1.Smoke
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A.case0 --&gt; (0&lt;A.i&lt;3)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] !( S1.PickingUp2  &amp;&amp; S1.PickingUp0)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>S2.PickingUp2 --&gt; S2.type == 2
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>S1.Smoke  --&gt; S1.CheckForItems
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>S1.PickingUp0  --&gt; S1.Smoke
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A.Receive --&gt; A.Start
+			</formula>
+			<comment>
+			</comment>
+		</query>
 		<query>
 			<formula>A.Start --&gt; A.Receive
 			</formula>

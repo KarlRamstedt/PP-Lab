@@ -28,6 +28,7 @@ public class Agent implements Runnable {
 					matches++;
 					break;
 			}
+			GlobalState.tableChan.receive();
 		}
 	}
 	
