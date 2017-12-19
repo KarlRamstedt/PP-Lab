@@ -6,7 +6,7 @@ import se.his.iit.it325g.common.AndrewsProcess;
 import se.his.iit.it325g.common.AsynchronousChan;
 
 public class GlobalState {
-	public final static int numberOfSmokers = 2;
+	public final static int numberOfSmokers = 9001;
 	
 	public volatile static ArrayList<AsynchronousChan<Integer>> smokChans = new ArrayList<AsynchronousChan<Integer>>();
 	public volatile static AsynchronousChan<int[]> queChan = new AsynchronousChan<int[]>();
@@ -25,12 +25,7 @@ public class GlobalState {
 				AndrewsProcess smoker = new AndrewsProcess(new Smoker(i, 0, smokChans.get(i)));
 				smoker.start();
 				smokers.add(smoker);
-<<<<<<< HEAD
-			}
-			else if (i < 20){
-=======
 			} else if (i < 20){
->>>>>>> 8850de7ce468290457bc48b85188e12d01c83fb4
 				smokChans.add(new AsynchronousChan<Integer>());
 				AndrewsProcess smoker = new AndrewsProcess(new Smoker(i, 1, smokChans.get(i)));
 				smoker.start();

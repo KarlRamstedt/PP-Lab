@@ -27,11 +27,7 @@ public class Agent implements Runnable {
 					matches++;
 					break;
 			}
-<<<<<<< HEAD
-			GlobalState.tableChan.receive();
-=======
 			GlobalState.tableChan.receive(); //receive message that table has been cleared
->>>>>>> 8850de7ce468290457bc48b85188e12d01c83fb4
 		}
 	}
 	
