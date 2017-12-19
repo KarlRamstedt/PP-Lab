@@ -165,80 +165,87 @@ int i;</declaration>
 		<declaration>int type;
 int myInMsg[arg];
 int myOutMsg[arg];</declaration>
-		<location id="id6" x="170" y="-314">
+		<location id="id6" x="76" y="-195">
+			<name x="66" y="-229">Exit</name>
+		</location>
+		<location id="id7" x="170" y="-314">
 			<name x="160" y="-348">Start</name>
 		</location>
-		<location id="id7" x="76" y="-67">
+		<location id="id8" x="76" y="-67">
 			<name x="42" y="-102">PickingUp0</name>
 		</location>
-		<location id="id8" x="170" y="-67">
+		<location id="id9" x="170" y="-67">
 			<name x="136" y="-102">PickingUp1</name>
 		</location>
-		<location id="id9" x="272" y="-67">
+		<location id="id10" x="272" y="-67">
 			<name x="238" y="-102">PickingUp2</name>
 		</location>
-		<location id="id10" x="170" y="51">
+		<location id="id11" x="170" y="51">
 			<name x="153" y="59">Smoke</name>
 		</location>
-		<location id="id11" x="170" y="-195">
+		<location id="id12" x="170" y="-195">
 			<name x="187" y="-212">CheckForItems</name>
 		</location>
-		<init ref="id6"/>
+		<init ref="id7"/>
 		<transition>
 			<source ref="id6"/>
-			<target ref="id11"/>
+			<target ref="id12"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id12"/>
 			<label kind="synchronisation" x="170" y="-297">Go ?</label>
 			<label kind="assignment" x="170" y="-280">type = id%3</label>
 		</transition>
 		<transition>
-			<source ref="id7"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="34" y="-42">receive[1]?</label>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="246" y="-42">receive[3]?</label>
-		</transition>
-		<transition>
 			<source ref="id8"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="136" y="-42">receive[2]?</label>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id7"/>
-			<label kind="guard" x="51" y="-152">type == 0</label>
-			<label kind="synchronisation" x="51" y="-135">Go ?</label>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id9"/>
-			<label kind="guard" x="221" y="-152">type == 2</label>
-			<label kind="synchronisation" x="263" y="-135">Go ?</label>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="34" y="-42">receive[1]?</label>
 		</transition>
 		<transition>
 			<source ref="id10"/>
 			<target ref="id11"/>
+			<label kind="synchronisation" x="246" y="-42">receive[3]?</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="136" y="-42">receive[2]?</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id8"/>
+			<label kind="guard" x="51" y="-152">type == 0</label>
+			<label kind="synchronisation" x="51" y="-135">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id10"/>
+			<label kind="guard" x="221" y="-152">type == 2</label>
+			<label kind="synchronisation" x="263" y="-135">Go ?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id6"/>
 			<label kind="synchronisation" x="-34" y="-68">send[0]!</label>
 			<nail x="25" y="51"/>
 			<nail x="25" y="-195"/>
 		</transition>
 		<transition>
-			<source ref="id11"/>
-			<target ref="id8"/>
+			<source ref="id12"/>
+			<target ref="id9"/>
 			<label kind="guard" x="136" y="-152">type == 1</label>
 			<label kind="synchronisation" x="136" y="-135">Go ?</label>
 		</transition>
 	</template>
 	<template>
 		<name x="5" y="5">Hurry</name>
-		<location id="id12" x="312" y="208">
+		<location id="id13" x="312" y="208">
 		</location>
-		<init ref="id12"/>
+		<init ref="id13"/>
 		<transition>
-			<source ref="id12"/>
-			<target ref="id12"/>
+			<source ref="id13"/>
+			<target ref="id13"/>
 			<label kind="synchronisation" x="376" y="200">Go!</label>
 			<nail x="368" y="184"/>
 			<nail x="368" y="240"/>
@@ -252,37 +259,37 @@ int myOutMsg[arg];</declaration>
 int buff[n][arg];
 int count = 0;
 int tmp = 0;</declaration>
-		<location id="id13" x="472" y="192">
+		<location id="id14" x="472" y="192">
 			<committed/>
 		</location>
-		<location id="id14" x="360" y="256">
+		<location id="id15" x="360" y="256">
 			<committed/>
 		</location>
-		<location id="id15" x="256" y="184">
+		<location id="id16" x="256" y="184">
 		</location>
-		<init ref="id15"/>
+		<init ref="id16"/>
 		<transition>
-			<source ref="id14"/>
-			<target ref="id15"/>
+			<source ref="id15"/>
+			<target ref="id16"/>
 			<label kind="guard" x="272" y="200">tmp==count</label>
 			<label kind="assignment" x="272" y="216">tmp=0</label>
 		</transition>
 		<transition>
-			<source ref="id13"/>
-			<target ref="id14"/>
+			<source ref="id14"/>
+			<target ref="id15"/>
 			<label kind="assignment" x="392" y="120">buff[tmp] = buff[tmp+1],
 tmp++</label>
 			<nail x="360" y="192"/>
 		</transition>
 		<transition>
-			<source ref="id14"/>
-			<target ref="id13"/>
+			<source ref="id15"/>
+			<target ref="id14"/>
 			<label kind="guard" x="400" y="232">tmp&lt;count</label>
 			<nail x="472" y="256"/>
 		</transition>
 		<transition>
-			<source ref="id15"/>
-			<target ref="id15"/>
+			<source ref="id16"/>
+			<target ref="id16"/>
 			<label kind="synchronisation" x="208" y="56">send[ChId]?</label>
 			<label kind="assignment" x="208" y="72">buff[count] = msg,
 count++</label>
@@ -290,8 +297,8 @@ count++</label>
 			<nail x="296" y="112"/>
 		</transition>
 		<transition>
-			<source ref="id15"/>
-			<target ref="id14"/>
+			<source ref="id16"/>
+			<target ref="id15"/>
 			<label kind="guard" x="216" y="256">count&gt;0</label>
 			<label kind="synchronisation" x="216" y="272">receive[ChId]!</label>
 			<label kind="assignment" x="216" y="288">msg = buff[0],
@@ -346,7 +353,7 @@ system A,S1,S2,S3,Ch0,Ch1,Ch2,Ch3,H; 			//Add the template instances you want to
 			</comment>
 		</query>
 		<query>
-			<formula>S1.Smoke  --&gt; S1.CheckForItems
+			<formula>S1.CheckForItems --&gt; S1.Exit
 			</formula>
 			<comment>
 			</comment>
