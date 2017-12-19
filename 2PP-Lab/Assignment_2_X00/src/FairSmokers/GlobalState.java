@@ -25,8 +25,12 @@ public class GlobalState {
 				AndrewsProcess smoker = new AndrewsProcess(new Smoker(i, 0, smokChans.get(i)));
 				smoker.start();
 				smokers.add(smoker);
+<<<<<<< HEAD
 			}
 			else if (i < 20){
+=======
+			} else if (i < 20){
+>>>>>>> 8850de7ce468290457bc48b85188e12d01c83fb4
 				smokChans.add(new AsynchronousChan<Integer>());
 				AndrewsProcess smoker = new AndrewsProcess(new Smoker(i, 1, smokChans.get(i)));
 				smoker.start();

@@ -8,7 +8,6 @@ public class Agent implements Runnable {
 	private int paper = 0;
 	private int matches = 0;
 
-	
 	@Override
 	public void run(){	
 		while (true) {
@@ -28,7 +27,11 @@ public class Agent implements Runnable {
 					matches++;
 					break;
 			}
+<<<<<<< HEAD
 			GlobalState.tableChan.receive();
+=======
+			GlobalState.tableChan.receive(); //receive message that table has been cleared
+>>>>>>> 8850de7ce468290457bc48b85188e12d01c83fb4
 		}
 	}
 	
